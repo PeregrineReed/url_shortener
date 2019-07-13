@@ -25,4 +25,21 @@ defmodule UrlShortenerWeb.RedirectControllerTest do
       assert redirected_to(conn) =~ "https://www.example.com/some/long/url"
     end
   end
+
+  describe "stats" do
+    test "shows stats for url", %{conn: conn} do
+
+      url = Urls.create_url(@create_attrs)
+
+      conn = get(conn,
+      Routes.redirect_path(conn,
+      :stats, "/url1/stats"))
+
+      assert %{
+               "id" => id,
+               "short_url" => "some short_url",
+               "url" => "some url",
+               "access_count" => 1
+             } = json_response(conn, 200)["data"]
+  end
 end

@@ -6,14 +6,16 @@ defmodule UrlShortener.Application do
   use Application
 
   def start(_type, _args) do
+    import Supervisor.Spec, warn: false
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
-      UrlShortener.Repo,
+      supervisor(UrlShortener.Repo, []),
       # Start the endpoint when the application starts
-      UrlShortenerWeb.Endpoint
+      supervisor(UrlShortenerWeb.Endpoint, []),
       # Starts a worker by calling: UrlShortener.Worker.start_link(arg)
       # {UrlShortener.Worker, arg},
+      supervisor(LinkCache.Supervisor, []),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

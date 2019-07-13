@@ -11,5 +11,6 @@ defmodule UrlShortenerWeb.Router do
     resources "/urls", UrlController
 
   get "/:slug", RedirectController, :show
+  get "/:slug/stats", RedirectController, :stats
   end
 end
