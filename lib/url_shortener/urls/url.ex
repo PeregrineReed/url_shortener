@@ -2,6 +2,7 @@ defmodule UrlShortener.Urls.Url do
   use Ecto.Schema
   import Ecto.Changeset
 
+
   schema "urls" do
     field :short_url, :string
     field :url, :string

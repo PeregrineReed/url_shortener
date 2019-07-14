@@ -35,8 +35,8 @@ defmodule UrlShortener.Urls do
       ** (Ecto.NoResultsError)
 
   """
-  def get_by_slug(slug), do:
-  Repo.get_by(Url, short_url: slug)
+
+  def get_by_slug(slug), do: Repo.get_by(Url, short_url: slug)
 
   def get_url!(id), do: Repo.get!(Url, id)
 
