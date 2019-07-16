@@ -2,11 +2,14 @@ defmodule UrlShortenerWeb.RedirectController do
   use UrlShortenerWeb, :controller
 
   alias UrlShortener.Urls
+  alias LinkCache.Counter
+  alias LinkCache.Cache
 
   action_fallback UrlShortenerWeb.FallbackController
 
   def show(conn, %{"slug" => slug}) do
-    url = LinkCache.Cache.fetch(slug, fn ->
+    Counter.log(slug)
+    url = Cache.fetch(slug, fn ->
       Urls.get_by_slug(slug)
     end)
 
@@ -14,7 +17,19 @@ defmodule UrlShortenerWeb.RedirectController do
   end
 
   def stats(conn, %{"slug" => slug}) do
-    url = Urls.get_by_slug(slug)
-    render(conn, "stats.json", url: url.short_url <> "/stats")
+    url = Cache.fetch(slug, fn ->
+      Urls.get_by_slug(slug)
+    end)
+
+    count = case Counter.get(slug) do
+      {:not_found} -> 0
+      {:found, result} -> result
+    end
+
+    render(conn, "show.json", stats: %{
+      url: url.url,
+      short_url: url.short_url,
+      access_count: count
+      })
   end
 end
