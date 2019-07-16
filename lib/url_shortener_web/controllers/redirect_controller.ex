@@ -8,7 +8,7 @@ defmodule UrlShortenerWeb.RedirectController do
   action_fallback UrlShortenerWeb.FallbackController
 
   def show(conn, %{"slug" => slug}) do
-    Counter.log(slug)
+    # Counter.log(slug)
     url = Cache.fetch(slug, fn ->
       Urls.get_by_slug(slug)
     end)
@@ -21,15 +21,15 @@ defmodule UrlShortenerWeb.RedirectController do
       Urls.get_by_slug(slug)
     end)
 
-    count = case Counter.get(slug) do
-      {:not_found} -> 0
-      {:found, result} -> result
-    end
+    # count = case Counter.get(slug) do
+    #   {:not_found} -> 0
+    #   {:found, result} -> result
+    # end
 
     render(conn, "show.json", stats: %{
       url: url.url,
       short_url: url.short_url,
-      access_count: count
+      access_count: 0
       })
   end
 end

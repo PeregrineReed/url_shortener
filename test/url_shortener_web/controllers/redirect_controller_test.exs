@@ -33,7 +33,7 @@ defmodule UrlShortenerWeb.RedirectControllerTest do
 
       conn = get(conn,
       Routes.redirect_path(conn,
-      :stats, "/url1/stats"))
+      :stats, "/url1"))
 
       assert %{
                "id" => id,
@@ -41,5 +41,6 @@ defmodule UrlShortenerWeb.RedirectControllerTest do
                "url" => "some url",
                "access_count" => 1
              } = json_response(conn, 200)["data"]
+    end
   end
 end

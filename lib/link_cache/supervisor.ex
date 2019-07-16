@@ -8,7 +8,7 @@ defmodule LinkCache.Supervisor do
   def init(:ok) do
     children = [
       worker(LinkCache.Cache, [[name: LinkCache.Cache]]),
-      worker(LinkCache.Counter, [[name: LinkCache.Counter]])
+      # worker(LinkCache.Counter, [[name: LinkCache.Counter]])
     ]
     supervise(children, strategy: :one_for_one)
   end
