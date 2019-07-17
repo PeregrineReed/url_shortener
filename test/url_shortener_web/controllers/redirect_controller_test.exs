@@ -36,11 +36,11 @@ defmodule UrlShortenerWeb.RedirectControllerTest do
       :stats, "/url1"))
 
       assert %{
-               "id" => id,
+               "id" => 1,
                "short_url" => "some short_url",
                "url" => "some url",
                "access_count" => 1
-             } = json_response(conn, 200)["data"]
+             } == json_response(conn, 200)["data"]
     end
   end
 end

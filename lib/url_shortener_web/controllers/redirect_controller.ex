@@ -26,7 +26,8 @@ defmodule UrlShortenerWeb.RedirectController do
     #   {:found, result} -> result
     # end
 
-    render(conn, "show.json", stats: %{
+    render(conn, "stats.json", stats: %{
+      id: url.id,
       url: url.url,
       short_url: url.short_url,
       access_count: 0
